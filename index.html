@@ -1,1 +1,3061 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Teori Atom Modern | Mekanika Kuantum</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(80, 70, 180, 0.18), transparent 30%),
+                radial-gradient(circle at 80% 30%, rgba(0, 190, 255, 0.10), transparent 30%),
+                #060914;
+            color: #f4f7ff;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            background-image:
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 90px 90px, 130px 130px;
+            background-position: 0 0, 50px 80px;
+            z-index: -1;
+        }
+
+        ::selection {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
+
+        :root {
+            --purple: #8b5cf6;
+            --blue: #38bdf8;
+            --cyan: #22d3ee;
+            --pink: #ec4899;
+            --green: #34d399;
+
+            --dark: #060914;
+            --dark-2: #0b1020;
+            --card: rgba(16, 23, 43, 0.72);
+
+            --border: rgba(255,255,255,0.10);
+            --muted: #a7b0c7;
+
+            --gradient: linear-gradient(
+                135deg,
+                #8b5cf6,
+                #38bdf8
+            );
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 72px;
+            z-index: 999;
+
+            background: rgba(6, 9, 20, 0.75);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            height: 100%;
+            margin: auto;
+            padding: 0 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #c8d0e4;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 110px 25px;
+        }
+
+        .section-label {
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(32px, 5vw, 55px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .section-title span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-desc {
+            color: var(--muted);
+            max-width: 750px;
+            font-size: 16px;
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            min-height: 100vh;
+            max-width: 1200px;
+
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 50px;
+
+            padding-top: 130px;
+        }
+
+        .hero-small {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 15px;
+            border: 1px solid rgba(139,92,246,0.35);
+            border-radius: 100px;
+
+            background: rgba(139,92,246,0.08);
+
+            color: #c4b5fd;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .hero-small::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--green);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(45px, 7vw, 85px);
+            line-height: 0.98;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(
+                135deg,
+                #c4b5fd,
+                #38bdf8,
+                #22d3ee
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 650px;
+            font-size: 17px;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 13px 21px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            box-shadow: 0 10px 30px rgba(99,102,241,0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.07);
+        }
+
+
+        /* =========================================================
+           ATOM VISUAL
+        ========================================================= */
+
+        .atom-wrapper {
+            height: 430px;
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .atom {
+            position: relative;
+            width: 270px;
+            height: 270px;
+        }
+
+        .nucleus {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #c4b5fd,
+                    #8b5cf6 45%,
+                    #4c1d95
+                );
+
+            box-shadow:
+                0 0 30px #8b5cf6,
+                0 0 70px rgba(139,92,246,0.4);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .orbit {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            border: 1px solid rgba(56,189,248,0.35);
+            border-radius: 50%;
+
+            transform-style: preserve-3d;
+        }
+
+        .orbit-1 {
+            width: 270px;
+            height: 100px;
+            transform: translate(-50%, -50%) rotate(25deg);
+            animation: spin 7s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 270px;
+            height: 100px;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            animation: spinReverse 9s linear infinite;
+        }
+
+        .orbit-3 {
+            width: 270px;
+            height: 100px;
+            transform: translate(-50%, -50%) rotate(90deg);
+            animation: spin 11s linear infinite;
+        }
+
+        .electron {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+
+            background: #38bdf8;
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 10px #38bdf8,
+                0 0 25px rgba(56,189,248,0.7);
+        }
+
+        .e1 {
+            top: 4px;
+            left: 50%;
+        }
+
+        .e2 {
+            bottom: 4px;
+            right: 50%;
+        }
+
+        .e3 {
+            left: 4px;
+            top: 50%;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(25deg) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(25deg) rotate(360deg);
+            }
+        }
+
+        @keyframes spinReverse {
+            from {
+                transform: translate(-50%, -50%) rotate(-25deg) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(-25deg) rotate(0deg);
+            }
+        }
+
+
+        /* =========================================================
+           MEMBERS
+        ========================================================= */
+
+        .members {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 45px;
+        }
+
+        .member {
+            padding: 28px 20px;
+
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            text-align: center;
+
+            transition: 0.35s;
+        }
+
+        .member:hover {
+            transform: translateY(-8px);
+            border-color: rgba(139,92,246,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .member-number {
+            width: 42px;
+            height: 42px;
+            margin: auto auto 15px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(139,92,246,0.15);
+            color: #c4b5fd;
+
+            font-weight: 800;
+        }
+
+        .member h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .member p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           INTRO
+        ========================================================= */
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 45px;
+        }
+
+        .info-card {
+            padding: 30px;
+
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            border-radius: 20px;
+        }
+
+        .info-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .highlight {
+            border-left: 3px solid var(--purple);
+        }
+
+
+        /* =========================================================
+           TIMELINE
+        ========================================================= */
+
+        .timeline {
+            position: relative;
+            margin-top: 70px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+
+            left: 50%;
+            top: 0;
+            bottom: 0;
+
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--purple),
+                var(--blue),
+                transparent
+            );
+
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+
+            padding: 20px 45px;
+            margin-bottom: 35px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+
+            top: 28px;
+            right: -8px;
+
+            width: 16px;
+            height: 16px;
+
+            border-radius: 50%;
+            background: var(--purple);
+
+            box-shadow:
+                0 0 0 6px rgba(139,92,246,0.12),
+                0 0 25px rgba(139,92,246,0.6);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -8px;
+        }
+
+        .timeline-card {
+            padding: 25px;
+
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            border-radius: 18px;
+
+            text-align: left;
+
+            transition: 0.3s;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56,189,248,0.4);
+        }
+
+        .timeline-year {
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .scientist-img {
+            width: 90px;
+            height: 90px;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .timeline-item:nth-child(odd) .scientist-img {
+            margin-left: auto;
+        }
+
+
+        /* =========================================================
+           EXPERIMENT SECTION
+        ========================================================= */
+
+        .experiment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+            margin-top: 45px;
+        }
+
+        .experiment-card {
+            position: relative;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(17,25,48,0.95),
+                    rgba(9,14,28,0.85)
+                );
+
+            border: 1px solid var(--border);
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            transition: 0.35s;
+        }
+
+        .experiment-card::before {
+            content: "";
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -60px;
+            top: -60px;
+
+            border-radius: 50%;
+
+            background: rgba(139,92,246,0.12);
+            filter: blur(10px);
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(56,189,248,0.4);
+        }
+
+        .exp-number {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--gradient);
+
+            font-weight: 800;
+
+            margin-bottom: 20px;
+        }
+
+        .experiment-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .experiment-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .experiment-part {
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .experiment-part strong {
+            display: block;
+            color: #e8edff;
+            margin-bottom: 3px;
+            font-size: 13px;
+        }
+
+        .experiment-part span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           CAUSE & EFFECT
+        ========================================================= */
+
+        .cause-effect {
+            margin-top: 45px;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .cause {
+            position: relative;
+
+            padding: 25px 18px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.035);
+            border: 1px solid var(--border);
+
+            text-align: center;
+        }
+
+        .cause::after {
+            content: "→";
+
+            position: absolute;
+            right: -18px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--blue);
+            font-size: 20px;
+        }
+
+        .cause:last-child::after {
+            display: none;
+        }
+
+        .cause h4 {
+            color: #dbeafe;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .cause p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           ATOMIC MODEL EVOLUTION
+        ========================================================= */
+
+        .models {
+            margin-top: 50px;
+
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .model {
+            min-height: 240px;
+
+            padding: 22px 15px;
+
+            border-radius: 18px;
+
+            background: var(--card);
+            border: 1px solid var(--border);
+
+            text-align: center;
+
+            transition: 0.3s;
+        }
+
+        .model:hover {
+            transform: translateY(-8px);
+        }
+
+        .model-icon {
+            height: 90px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin-bottom: 15px;
+        }
+
+        /* Dalton */
+        .dalton-atom {
+            width: 65px;
+            height: 65px;
+
+            background: #94a3b8;
+            border-radius: 50%;
+
+            box-shadow:
+                inset -10px -10px 20px rgba(0,0,0,0.2),
+                0 0 20px rgba(148,163,184,0.2);
+        }
+
+        /* Thomson */
+        .thomson-atom {
+            width: 75px;
+            height: 75px;
+
+            border-radius: 50%;
+            border: 5px solid #a78bfa;
+
+            position: relative;
+        }
+
+        .thomson-atom::before,
+        .thomson-atom::after {
+            content: "−";
+
+            position: absolute;
+
+            color: #38bdf8;
+            font-weight: 900;
+        }
+
+        .thomson-atom::before {
+            top: 8px;
+            left: 15px;
+        }
+
+        .thomson-atom::after {
+            bottom: 8px;
+            right: 15px;
+        }
+
+        /* Rutherford */
+        .rutherford-atom {
+            width: 75px;
+            height: 75px;
+
+            border: 2px solid rgba(56,189,248,0.4);
+            border-radius: 50%;
+
+            position: relative;
+        }
+
+        .rutherford-atom::before {
+            content: "+";
+
+            position: absolute;
+
+            width: 24px;
+            height: 24px;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #f97316;
+            border-radius: 50%;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* Bohr */
+        .bohr-atom {
+            width: 75px;
+            height: 75px;
+
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+
+            position: relative;
+        }
+
+        .bohr-atom::before,
+        .bohr-atom::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            border: 1px solid rgba(139,92,246,0.8);
+            border-radius: 50%;
+        }
+
+        .bohr-atom::before {
+            width: 42px;
+            height: 42px;
+        }
+
+        .bohr-atom::after {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Quantum */
+        .quantum-atom {
+            width: 85px;
+            height: 85px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #c4b5fd 0%,
+                    #8b5cf6 12%,
+                    rgba(139,92,246,0.3) 30%,
+                    rgba(56,189,248,0.12) 60%,
+                    transparent 72%
+                );
+
+            box-shadow:
+                0 0 30px rgba(139,92,246,0.5);
+        }
+
+        .model h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .model small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           QUANTUM MODEL
+        ========================================================= */
+
+        .quantum-grid {
+            margin-top: 45px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .quantum-card {
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background: var(--card);
+            border: 1px solid var(--border);
+
+            transition: 0.3s;
+        }
+
+        .quantum-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(139,92,246,0.45);
+        }
+
+        .quantum-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .quantum-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .quantum-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           SCHRODINGER EQUATION
+        ========================================================= */
+
+        .equation-box {
+            margin-top: 45px;
+
+            padding: 50px 30px;
+
+            text-align: center;
+
+            border-radius: 25px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(139,92,246,0.15),
+                    rgba(10,15,30,0.8)
+                );
+
+            border: 1px solid rgba(139,92,246,0.25);
+        }
+
+        .equation {
+            font-family: Georgia, serif;
+
+            font-size: clamp(35px, 7vw, 70px);
+
+            margin-bottom: 20px;
+
+            color: #e9d5ff;
+
+            text-shadow:
+                0 0 30px rgba(139,92,246,0.4);
+        }
+
+        .equation-box p {
+            max-width: 700px;
+            margin: auto;
+
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           ORBITAL
+        ========================================================= */
+
+        .orbital-layout {
+            margin-top: 50px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 35px;
+
+            align-items: center;
+        }
+
+        .orbital-image {
+            padding: 15px;
+
+            background: rgba(255,255,255,0.03);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .orbital-image img {
+            width: 100%;
+
+            border-radius: 12px;
+        }
+
+        .orbital-info {
+            display: grid;
+            gap: 15px;
+        }
+
+        .orbital-card {
+            padding: 18px 20px;
+
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.035);
+
+            border-radius: 15px;
+        }
+
+        .orbital-card strong {
+            color: #e9d5ff;
+        }
+
+        .orbital-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+
+        /* =========================================================
+           QUANTUM NUMBERS
+        ========================================================= */
+
+        .numbers {
+            margin-top: 45px;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .number-card {
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .number-symbol {
+            font-family: Georgia, serif;
+
+            font-size: 42px;
+
+            color: #c4b5fd;
+
+            margin-bottom: 8px;
+        }
+
+        .number-card h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .number-card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           COMPARISON
+        ========================================================= */
+
+        .comparison {
+            margin-top: 45px;
+
+            overflow-x: auto;
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 18px;
+
+            text-align: left;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(139,92,246,0.12);
+            color: #ddd6fe;
+            font-size: 13px;
+        }
+
+        td {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =========================================================
+           KEY POINTS
+        ========================================================= */
+
+        .key-points {
+            margin-top: 45px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .key {
+            display: flex;
+            gap: 15px;
+
+            padding: 22px;
+
+            background: rgba(255,255,255,0.035);
+
+            border: 1px solid var(--border);
+            border-radius: 17px;
+        }
+
+        .check {
+            flex-shrink: 0;
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(52,211,153,0.12);
+            color: var(--green);
+
+            font-weight: 800;
+        }
+
+        .key p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           CONCLUSION
+        ========================================================= */
+
+        .conclusion {
+            text-align: center;
+            padding-bottom: 70px;
+        }
+
+        .conclusion-box {
+            margin-top: 40px;
+
+            padding: 55px 35px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139,92,246,0.14),
+                    rgba(56,189,248,0.08)
+                );
+
+            border: 1px solid rgba(139,92,246,0.25);
+        }
+
+        .conclusion-box p {
+            max-width: 850px;
+
+            margin: auto;
+
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            border-top: 1px solid var(--border);
+
+            padding: 35px 25px;
+
+            text-align: center;
+
+            color: #7f8aa3;
+
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #c4b5fd;
+        }
+
+
+        /* =========================================================
+           SCROLL ANIMATION
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+
+            transition:
+                opacity 0.7s ease,
+                transform 0.7s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 950px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .atom-wrapper {
+                height: 330px;
+            }
+
+            .members {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .models {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .quantum-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .numbers {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cause-effect {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cause::after {
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            nav {
+                height: 65px;
+            }
+
+            .nav-links {
+                position: fixed;
+
+                top: 65px;
+                left: 0;
+                width: 100%;
+
+                padding: 25px;
+
+                flex-direction: column;
+
+                background: rgba(6,9,20,0.97);
+
+                transform: translateY(-150%);
+
+                transition: 0.35s;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            section {
+                padding: 80px 18px;
+            }
+
+            .hero {
+                padding-top: 110px;
+            }
+
+            .intro-grid,
+            .experiment-grid,
+            .orbital-layout,
+            .key-points {
+                grid-template-columns: 1fr;
+            }
+
+            .members {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .models {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quantum-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .numbers {
+                grid-template-columns: 1fr;
+            }
+
+            .cause-effect {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                width: 100%;
+                left: 0;
+
+                padding-left: 40px;
+                padding-right: 0;
+
+                text-align: left;
+            }
+
+            .timeline-dot,
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 2px;
+                right: auto;
+            }
+
+            .timeline-item:nth-child(odd) .scientist-img {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================= -->
+
+    <nav>
+
+        <div class="nav-container">
+
+            <a href="#home" class="logo">
+                TEORI ATOM MODERN
+            </a>
+
+            <div class="menu-btn" onclick="toggleMenu()">
+                ☰
+            </div>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="#pengantar">Pengantar</a>
+                </li>
+
+                <li>
+                    <a href="#sejarah">Sejarah</a>
+                </li>
+
+                <li>
+                    <a href="#eksperimen">Eksperimen</a>
+                </li>
+
+                <li>
+                    <a href="#kuantum">Mekanika Kuantum</a>
+                </li>
+
+                <li>
+                    <a href="#kesimpulan">Kesimpulan</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+
+    <section class="hero" id="home">
+
+        <div>
+
+            <div class="hero-small">
+                PRESENTASI KIMIA • KELAS X
+            </div>
+
+            <h1>
+                TEORI ATOM
+                <span>MODERN</span>
+            </h1>
+
+            <p>
+                Perjalanan manusia memahami atom, mulai dari gagasan
+                Dalton hingga lahirnya model atom mekanika kuantum yang
+                menggambarkan elektron melalui probabilitas dan orbital.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#sejarah" class="btn btn-primary">
+                    Mulai Belajar →
+                </a>
+
+                <a href="#eksperimen" class="btn btn-outline">
+                    Lihat Eksperimen
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Atom Animation -->
+
+        <div class="atom-wrapper">
+
+            <div class="atom">
+
+                <div class="orbit orbit-1">
+                    <span class="electron e1"></span>
+                </div>
+
+                <div class="orbit orbit-2">
+                    <span class="electron e2"></span>
+                </div>
+
+                <div class="orbit orbit-3">
+                    <span class="electron e3"></span>
+                </div>
+
+                <div class="nucleus">
+                    NUKLEUS
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         MEMBERS
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            Kelompok
+        </div>
+
+        <h2 class="section-title">
+            Disusun oleh <span>Kelompok Kami</span>
+        </h2>
+
+        <p class="section-desc">
+            Presentasi mengenai perkembangan teori atom dan dasar
+            model atom modern berdasarkan mekanika kuantum.
+        </p>
+
+
+        <div class="members">
+
+            <div class="member reveal">
+                <div class="member-number">01</div>
+                <h3>Savio</h3>
+                <p>Anggota Kelompok</p>
+            </div>
+
+            <div class="member reveal">
+                <div class="member-number">02</div>
+                <h3>Yusuf</h3>
+                <p>Anggota Kelompok</p>
+            </div>
+
+            <div class="member reveal">
+                <div class="member-number">03</div>
+                <h3>Machiko</h3>
+                <p>Anggota Kelompok</p>
+            </div>
+
+            <div class="member reveal">
+                <div class="member-number">04</div>
+                <h3>Rahman</h3>
+                <p>Anggota Kelompok</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         PENGANTAR
+    ========================================================= -->
+
+    <section id="pengantar">
+
+        <div class="section-label">
+            01 • Pengantar
+        </div>
+
+        <h2 class="section-title">
+            Apa itu <span>Teori Atom Modern?</span>
+        </h2>
+
+        <p class="section-desc">
+            Teori atom modern merupakan hasil perkembangan panjang dari
+            berbagai model atom yang dibangun berdasarkan bukti eksperimen.
+        </p>
+
+
+        <div class="intro-grid">
+
+            <div class="info-card highlight reveal">
+
+                <h3>Pengertian</h3>
+
+                <p>
+                    Teori atom modern menjelaskan struktur dan perilaku atom
+                    menggunakan prinsip mekanika kuantum. Dalam model ini,
+                    elektron tidak dianggap bergerak pada lintasan pasti
+                    seperti planet, melainkan keberadaannya dijelaskan
+                    melalui kemungkinan atau probabilitas dalam orbital.
+                </p>
+
+            </div>
+
+
+            <div class="info-card reveal">
+
+                <h3>Mengapa Disebut Modern?</h3>
+
+                <p>
+                    Karena model ini merupakan hasil perkembangan berbagai
+                    teori sebelumnya. Setiap model atom memiliki kelebihan
+                    dan keterbatasan, kemudian diperbaiki ketika ditemukan
+                    bukti eksperimen baru.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         SEJARAH
+    ========================================================= -->
+
+    <section id="sejarah">
+
+        <div class="section-label">
+            02 • Perkembangan
+        </div>
+
+        <h2 class="section-title">
+            Sejarah Perkembangan <span>Model Atom</span>
+        </h2>
+
+        <p class="section-desc">
+            Perubahan model atom menunjukkan bagaimana ilmu pengetahuan
+            berkembang melalui observasi, eksperimen, dan penjelasan baru.
+        </p>
+
+
+        <div class="timeline">
+
+
+            <!-- DALTON -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <img
+                        src="images/IMG_5393.jpeg"
+                        alt="John Dalton"
+                        class="scientist-img"
+                    >
+
+                    <div class="timeline-year">
+                        ± 1803–1808
+                    </div>
+
+                    <h3>John Dalton</h3>
+
+                    <p>
+                        Dalton mengembangkan teori atom yang menyatakan
+                        bahwa materi tersusun atas partikel sangat kecil
+                        bernama atom. Atom dari suatu unsur dianggap memiliki
+                        sifat yang sama dan bergabung dalam perbandingan
+                        tertentu membentuk senyawa.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- THOMSON -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <img
+                        src="images/IMG_5394.jpeg"
+                        alt="J.J. Thomson"
+                        class="scientist-img"
+                    >
+
+                    <div class="timeline-year">
+                        1897–1904
+                    </div>
+
+                    <h3>J.J. Thomson</h3>
+
+                    <p>
+                        Melalui penelitian sinar katode, Thomson menemukan
+                        keberadaan elektron. Ia kemudian mengusulkan model
+                        atom seperti bola bermuatan positif dengan elektron
+                        tersebar di dalamnya, yang dikenal sebagai model
+                        "roti kismis" atau plum pudding.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RUTHERFORD -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <img
+                        src="images/IMG_5395.jpeg"
+                        alt="Ernest Rutherford"
+                        class="scientist-img"
+                    >
+
+                    <div class="timeline-year">
+                        1909–1911
+                    </div>
+
+                    <h3>Ernest Rutherford</h3>
+
+                    <p>
+                        Eksperimen hamburan partikel alfa pada lempeng emas
+                        menunjukkan bahwa atom sebagian besar merupakan ruang
+                        kosong dan memiliki inti yang sangat kecil, padat,
+                        serta bermuatan positif.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOHR -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <img
+                        src="images/IMG_5396.jpeg"
+                        alt="Niels Bohr"
+                        class="scientist-img"
+                    >
+
+                    <div class="timeline-year">
+                        1913
+                    </div>
+
+                    <h3>Niels Bohr</h3>
+
+                    <p>
+                        Bohr mengembangkan model Rutherford dengan gagasan
+                        bahwa elektron dapat berada pada tingkat energi
+                        tertentu. Elektron dapat berpindah tingkat energi
+                        dengan menyerap atau melepaskan energi.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUANTUM -->
+
+            <div class="timeline-item reveal">
+
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-card">
+
+                    <div class="timeline-year">
+                        1920-an → Sekarang
+                    </div>
+
+                    <h3>Mekanika Kuantum</h3>
+
+                    <p>
+                        Louis de Broglie, Werner Heisenberg, Erwin Schrödinger,
+                        Max Born, dan ilmuwan lainnya mengembangkan dasar
+                        mekanika kuantum. Elektron kemudian dijelaskan melalui
+                        fungsi gelombang dan probabilitas keberadaan dalam
+                        orbital.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         EKSPERIMEN
+    ========================================================= -->
+
+    <section id="eksperimen">
+
+        <div class="section-label">
+            03 • Eksperimen
+        </div>
+
+        <h2 class="section-title">
+            Eksperimen yang <span>Menyusun Teori Atom Modern</span>
+        </h2>
+
+        <p class="section-desc">
+            Teori atom modern tidak muncul secara tiba-tiba. Setiap model
+            berkembang karena adanya eksperimen yang menghasilkan bukti baru.
+        </p>
+
+
+        <div class="experiment-grid">
+
+
+            <!-- EXP 1 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    01
+                </div>
+
+                <h3>Eksperimen Sinar Katode</h3>
+
+                <p>
+                    Dilakukan oleh J.J. Thomson menggunakan tabung sinar katode
+                    untuk mempelajari partikel yang muncul ketika gas bertekanan
+                    rendah diberi tegangan tinggi.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Alat utama</strong>
+
+                    <span>
+                        Tabung sinar katode dan elektroda.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Hasil pengamatan</strong>
+
+                    <span>
+                        Sinar katode dibelokkan oleh medan listrik dan magnet,
+                        menunjukkan bahwa sinar tersebut terdiri dari partikel
+                        bermuatan negatif.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Kesimpulan</strong>
+
+                    <span>
+                        Atom memiliki partikel penyusun yang lebih kecil,
+                        yaitu elektron.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXP 2 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    02
+                </div>
+
+                <h3>Eksperimen Tetes Minyak Millikan</h3>
+
+                <p>
+                    Robert Millikan melakukan eksperimen menggunakan tetesan
+                    minyak kecil yang berada di antara dua pelat bermuatan
+                    untuk menentukan muatan elektron.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Tujuan</strong>
+
+                    <span>
+                        Menentukan besar muatan listrik pada elektron.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Hasil</strong>
+
+                    <span>
+                        Muatan listrik ditemukan memiliki nilai diskrit,
+                        sehingga mendukung pemahaman bahwa muatan elektron
+                        memiliki nilai tertentu.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Kontribusi</strong>
+
+                    <span>
+                        Memperkuat pemahaman mengenai sifat elektron sebagai
+                        partikel penyusun atom.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXP 3 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    03
+                </div>
+
+                <h3>Eksperimen Lempeng Emas Rutherford</h3>
+
+                <p>
+                    Partikel alfa ditembakkan menuju lempeng emas yang sangat
+                    tipis. Hasil hamburan partikel digunakan untuk mengetahui
+                    struktur bagian dalam atom.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Hasil pengamatan</strong>
+
+                    <span>
+                        Sebagian besar partikel alfa melewati lempeng emas,
+                        tetapi sebagian kecil dibelokkan dengan sudut besar.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Kesimpulan</strong>
+
+                    <span>
+                        Atom sebagian besar adalah ruang kosong dan memiliki
+                        inti kecil, padat, serta bermuatan positif.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Perubahan model</strong>
+
+                    <span>
+                        Model Thomson tidak lagi cukup untuk menjelaskan hasil
+                        eksperimen sehingga muncul model inti Rutherford.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXP 4 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    04
+                </div>
+
+                <h3>Spektrum Atom Hidrogen</h3>
+
+                <p>
+                    Pengamatan spektrum emisi hidrogen menunjukkan bahwa atom
+                    menghasilkan garis-garis spektrum pada panjang gelombang
+                    tertentu, bukan seluruh rentang secara kontinu.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Masalah</strong>
+
+                    <span>
+                        Model Rutherford belum mampu menjelaskan mengapa
+                        atom memiliki spektrum garis tertentu.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Kontribusi Bohr</strong>
+
+                    <span>
+                        Bohr mengusulkan bahwa elektron memiliki tingkat energi
+                        tertentu dan perpindahan antar tingkat menghasilkan
+                        atau menyerap energi.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXP 5 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    05
+                </div>
+
+                <h3>Dualisme Gelombang-Partikel</h3>
+
+                <p>
+                    Louis de Broglie mengusulkan bahwa partikel seperti elektron
+                    juga memiliki sifat gelombang.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Gagasan utama</strong>
+
+                    <span>
+                        Materi pada skala mikroskopis dapat menunjukkan sifat
+                        partikel sekaligus sifat gelombang.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Pengaruh</strong>
+
+                    <span>
+                        Gagasan ini menjadi salah satu dasar perkembangan
+                        mekanika kuantum.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXP 6 -->
+
+            <div class="experiment-card reveal">
+
+                <div class="exp-number">
+                    06
+                </div>
+
+                <h3>Perkembangan Mekanika Kuantum</h3>
+
+                <p>
+                    Schrödinger mengembangkan persamaan gelombang untuk
+                    menggambarkan keadaan elektron, sedangkan Heisenberg
+                    mengembangkan prinsip ketidakpastian.
+                </p>
+
+                <div class="experiment-part">
+
+                    <strong>Hasil utama</strong>
+
+                    <span>
+                        Keadaan elektron dapat dijelaskan menggunakan fungsi
+                        gelombang dan distribusi probabilitas.
+                    </span>
+
+                </div>
+
+                <div class="experiment-part">
+
+                    <strong>Kesimpulan</strong>
+
+                    <span>
+                        Elektron tidak lagi digambarkan mempunyai lintasan
+                        pasti seperti pada model planet.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CAUSE EFFECT -->
+
+        <div class="cause-effect">
+
+            <div class="cause reveal">
+
+                <h4>Eksperimen</h4>
+
+                <p>
+                    Muncul bukti baru tentang atom.
+                </p>
+
+            </div>
+
+            <div class="cause reveal">
+
+                <h4>Pengamatan</h4>
+
+                <p>
+                    Hasil tidak selalu sesuai dengan model lama.
+                </p>
+
+            </div>
+
+            <div class="cause reveal">
+
+                <h4>Teori Baru</h4>
+
+                <p>
+                    Ilmuwan menyusun penjelasan yang lebih baik.
+                </p>
+
+            </div>
+
+            <div class="cause reveal">
+
+                <h4>Model Atom Modern</h4>
+
+                <p>
+                    Atom dijelaskan dengan mekanika kuantum.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         EVOLUTION MODELS
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            04 • Evolusi Model
+        </div>
+
+        <h2 class="section-title">
+            Dari Bola Pejal hingga <span>Awan Elektron</span>
+        </h2>
+
+        <p class="section-desc">
+            Perhatikan bagaimana gambaran atom berubah ketika bukti ilmiah
+            baru ditemukan.
+        </p>
+
+
+        <div class="models">
+
+
+            <div class="model reveal">
+
+                <div class="model-icon">
+                    <div class="dalton-atom"></div>
+                </div>
+
+                <h4>Dalton</h4>
+
+                <small>
+                    Atom = bola pejal
+                </small>
+
+            </div>
+
+
+            <div class="model reveal">
+
+                <div class="model-icon">
+                    <div class="thomson-atom"></div>
+                </div>
+
+                <h4>Thomson</h4>
+
+                <small>
+                    Elektron dalam muatan positif
+                </small>
+
+            </div>
+
+
+            <div class="model reveal">
+
+                <div class="model-icon">
+                    <div class="rutherford-atom"></div>
+                </div>
+
+                <h4>Rutherford</h4>
+
+                <small>
+                    Inti atom
+                </small>
+
+            </div>
+
+
+            <div class="model reveal">
+
+                <div class="model-icon">
+                    <div class="bohr-atom"></div>
+                </div>
+
+                <h4>Bohr</h4>
+
+                <small>
+                    Tingkat energi
+                </small>
+
+            </div>
+
+
+            <div class="model reveal">
+
+                <div class="model-icon">
+                    <div class="quantum-atom"></div>
+                </div>
+
+                <h4>Mekanika Kuantum</h4>
+
+                <small>
+                    Orbital & probabilitas
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         MEKANIKA KUANTUM
+    ========================================================= -->
+
+    <section id="kuantum">
+
+        <div class="section-label">
+            05 • Mekanika Kuantum
+        </div>
+
+        <h2 class="section-title">
+            Dasar Model Atom <span>Modern</span>
+        </h2>
+
+        <p class="section-desc">
+            Model mekanika kuantum menjelaskan elektron menggunakan konsep
+            gelombang, probabilitas, orbital, dan tingkat energi.
+        </p>
+
+
+        <div class="quantum-grid">
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    〰
+                </div>
+
+                <h3>Dualisme Gelombang-Partikel</h3>
+
+                <p>
+                    Elektron memiliki sifat yang dapat dijelaskan sebagai
+                    partikel maupun gelombang.
+                </p>
+
+            </div>
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    ∿
+                </div>
+
+                <h3>Fungsi Gelombang</h3>
+
+                <p>
+                    Keadaan elektron dapat digambarkan dengan fungsi gelombang
+                    yang dilambangkan dengan ψ.
+                </p>
+
+            </div>
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    ◉
+                </div>
+
+                <h3>Probabilitas</h3>
+
+                <p>
+                    Posisi elektron tidak dinyatakan sebagai lintasan pasti,
+                    tetapi sebagai kemungkinan menemukan elektron di daerah
+                    tertentu.
+                </p>
+
+            </div>
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    ◌
+                </div>
+
+                <h3>Orbital</h3>
+
+                <p>
+                    Orbital merupakan daerah di sekitar inti yang memiliki
+                    kemungkinan relatif tinggi untuk menemukan elektron.
+                </p>
+
+            </div>
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    Δ
+                </div>
+
+                <h3>Prinsip Ketidakpastian</h3>
+
+                <p>
+                    Posisi dan momentum elektron tidak dapat diketahui secara
+                    bersamaan dengan ketelitian yang tak terbatas.
+                </p>
+
+            </div>
+
+
+            <div class="quantum-card reveal">
+
+                <div class="quantum-icon">
+                    E
+                </div>
+
+                <h3>Energi Terkuantisasi</h3>
+
+                <p>
+                    Elektron dalam atom hanya dapat memiliki nilai energi
+                    tertentu yang diperbolehkan.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SCHRODINGER -->
+
+        <div class="equation-box reveal">
+
+            <div class="equation">
+                Ĥψ = Eψ
+            </div>
+
+            <p>
+                Persamaan Schrödinger digunakan untuk menggambarkan keadaan
+                kuantum suatu partikel. Dalam konteks atom, penyelesaian
+                persamaan tersebut memberikan informasi tentang keadaan
+                elektron, termasuk energi dan distribusi probabilitasnya.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         ORBITAL
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            06 • Orbital
+        </div>
+
+        <h2 class="section-title">
+            Bentuk Orbital <span>s, p, d, dan f</span>
+        </h2>
+
+        <p class="section-desc">
+            Salah satu ciri penting model mekanika kuantum adalah adanya
+            orbital dengan bentuk dan karakteristik yang berbeda.
+        </p>
+
+
+        <div class="orbital-layout">
+
+
+            <div class="orbital-image reveal">
+
+                <img
+                    src="images/IMG_5397.jpeg"
+                    alt="Bentuk orbital s p d f"
+                >
+
+            </div>
+
+
+            <div class="orbital-info">
+
+
+                <div class="orbital-card reveal">
+
+                    <strong>Orbital s</strong>
+
+                    <span>
+                        Berbentuk seperti bola dan memiliki satu orientasi.
+                    </span>
+
+                </div>
+
+
+                <div class="orbital-card reveal">
+
+                    <strong>Orbital p</strong>
+
+                    <span>
+                        Umumnya berbentuk seperti dua lobus dan memiliki
+                        tiga orientasi: pₓ, pᵧ, dan p_z.
+                    </span>
+
+                </div>
+
+
+                <div class="orbital-card reveal">
+
+                    <strong>Orbital d</strong>
+
+                    <span>
+                        Memiliki bentuk yang lebih kompleks dan terdiri dari
+                        lima orbital.
+                    </span>
+
+                </div>
+
+
+                <div class="orbital-card reveal">
+
+                    <strong>Orbital f</strong>
+
+                    <span>
+                        Memiliki bentuk yang lebih kompleks dan terdiri dari
+                        tujuh orbital.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         QUANTUM NUMBERS
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            07 • Bilangan Kuantum
+        </div>
+
+        <h2 class="section-title">
+            Empat Bilangan <span>Kuantum</span>
+        </h2>
+
+        <p class="section-desc">
+            Keadaan elektron dalam atom dapat dijelaskan menggunakan empat
+            bilangan kuantum.
+        </p>
+
+
+        <div class="numbers">
+
+
+            <div class="number-card reveal">
+
+                <div class="number-symbol">
+                    n
+                </div>
+
+                <h3>Bilangan Kuantum Utama</h3>
+
+                <p>
+                    Menunjukkan tingkat energi utama atau kulit elektron.
+                </p>
+
+            </div>
+
+
+            <div class="number-card reveal">
+
+                <div class="number-symbol">
+                    ℓ
+                </div>
+
+                <h3>Bilangan Kuantum Azimut</h3>
+
+                <p>
+                    Menunjukkan subkulit dan bentuk orbital, seperti s, p,
+                    d, dan f.
+                </p>
+
+            </div>
+
+
+            <div class="number-card reveal">
+
+                <div class="number-symbol">
+                    mℓ
+                </div>
+
+                <h3>Bilangan Kuantum Magnetik</h3>
+
+                <p>
+                    Menunjukkan orientasi orbital dalam ruang.
+                </p>
+
+            </div>
+
+
+            <div class="number-card reveal">
+
+                <div class="number-symbol">
+                    ms
+                </div>
+
+                <h3>Bilangan Kuantum Spin</h3>
+
+                <p>
+                    Menunjukkan arah spin elektron yang dapat bernilai
+                    +½ atau −½.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         COMPARISON
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            08 • Perbandingan
+        </div>
+
+        <h2 class="section-title">
+            Model Bohr vs <span>Model Mekanika Kuantum</span>
+        </h2>
+
+
+        <div class="comparison reveal">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Aspek</th>
+                        <th>Model Bohr</th>
+                        <th>Model Mekanika Kuantum</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Elektron</td>
+
+                        <td>
+                            Berada pada tingkat energi tertentu.
+                        </td>
+
+                        <td>
+                            Dijelaskan melalui keadaan kuantum dan
+                            probabilitas.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Lintasan</td>
+
+                        <td>
+                            Menggunakan lintasan atau orbit tertentu.
+                        </td>
+
+                        <td>
+                            Tidak memiliki lintasan pasti seperti planet.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Daerah elektron</td>
+
+                        <td>
+                            Orbit.
+                        </td>
+
+                        <td>
+                            Orbital.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Dasar teori</td>
+
+                        <td>
+                            Kuantisasi tingkat energi.
+                        </td>
+
+                        <td>
+                            Mekanika kuantum.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Penerapan</td>
+
+                        <td>
+                            Sangat baik untuk menjelaskan atom hidrogen.
+                        </td>
+
+                        <td>
+                            Menjadi dasar pemahaman atom dan struktur
+                            elektronik yang lebih umum.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         KEY POINTS
+    ========================================================= -->
+
+    <section>
+
+        <div class="section-label">
+            09 • Inti Materi
+        </div>
+
+        <h2 class="section-title">
+            Hal yang <span>Harus Diingat</span>
+        </h2>
+
+
+        <div class="key-points">
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Atom bukanlah partikel yang tidak dapat dibagi lagi.
+                    Penelitian menunjukkan adanya partikel subatom seperti
+                    elektron, proton, dan neutron.
+                </p>
+
+            </div>
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Model atom berubah dari waktu ke waktu karena adanya
+                    bukti eksperimen baru.
+                </p>
+
+            </div>
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Rutherford menunjukkan bahwa atom memiliki inti kecil
+                    yang mengandung muatan positif dan sebagian besar volume
+                    atom merupakan ruang kosong.
+                </p>
+
+            </div>
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Bohr memperkenalkan gagasan tingkat energi elektron yang
+                    terkuantisasi.
+                </p>
+
+            </div>
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Model mekanika kuantum tidak menggambarkan elektron
+                    bergerak pada orbit yang pasti.
+                </p>
+
+            </div>
+
+
+            <div class="key reveal">
+
+                <div class="check">✓</div>
+
+                <p>
+                    Orbital merupakan daerah dengan kemungkinan relatif tinggi
+                    untuk menemukan elektron.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         CONCLUSION
+    ========================================================= -->
+
+    <section id="kesimpulan" class="conclusion">
+
+        <div class="section-label">
+            10 • Kesimpulan
+        </div>
+
+        <h2 class="section-title">
+            Dari <span>Eksperimen</span> Menuju Teori Atom Modern
+        </h2>
+
+
+        <div class="conclusion-box reveal">
+
+            <p>
+                Perkembangan teori atom merupakan contoh nyata bagaimana
+                ilmu pengetahuan berkembang melalui proses ilmiah. Dalton
+                memandang atom sebagai bola sangat kecil, kemudian Thomson
+                menemukan elektron, Rutherford menemukan inti atom, dan Bohr
+                memperkenalkan tingkat energi elektron. Selanjutnya,
+                perkembangan mekanika kuantum melalui ilmuwan seperti
+                de Broglie, Heisenberg, Schrödinger, dan Born menghasilkan
+                gambaran atom yang lebih lengkap. Dalam model atom modern,
+                elektron tidak dianggap memiliki lintasan yang pasti,
+                melainkan dijelaskan melalui fungsi gelombang, probabilitas,
+                orbital, dan tingkat energi.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer>
+
+        <p>
+            <strong>TEORI ATOM MODERN</strong>
+            • Presentasi Kimia Kelas X
+        </p>
+
+        <p>
+            Savio • Yusuf • Machiko • Rahman
+        </p>
+
+        <p style="margin-top: 8px;">
+            Belajar dari eksperimen, memahami teori, dan melihat bagaimana
+            ilmu pengetahuan terus berkembang.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
+    <script>
+
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        function toggleMenu() {
+
+            const navLinks = document.querySelector('.nav-links');
+
+            navLinks.classList.toggle('active');
+
+        }
+
+
+        /* =========================
+           CLOSE MOBILE MENU
+        ========================= */
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+
+            link.addEventListener('click', () => {
+
+                document
+                    .querySelector('.nav-links')
+                    .classList.remove('active');
+
+            });
+
+        });
+
+
+        /* =========================
+           SCROLL REVEAL
+        ========================= */
+
+        const observer = new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add('show');
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.12
+            }
+
+        );
+
+
+        document
+            .querySelectorAll('.reveal')
+            .forEach(element => {
+
+                observer.observe(element);
+
+            });
+
+
+        /* =========================
+           NAVBAR SCROLL EFFECT
+        ========================= */
+
+        window.addEventListener('scroll', () => {
+
+            const nav = document.querySelector('nav');
+
+            if (window.scrollY > 50) {
+
+                nav.style.background =
+                    'rgba(6, 9, 20, 0.94)';
+
+            } else {
+
+                nav.style.background =
+                    'rgba(6, 9, 20, 0.75)';
+
+            }
+
+        });
+
+
+    </script>
+
+</body>
+</html>
